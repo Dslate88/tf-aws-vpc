@@ -94,10 +94,10 @@ resource "aws_route_table_association" "private" {
 }
 
 resource "aws_security_group" "default" {
-  name        = "${var.environment}-default-sg"
+  name        = "${var.vpc_name}-default-sg"
   description = "Default sg self-ref ingress & all engress"
-  vpc_id      = aws_vpc.vpc.id
-  depends_on  = [aws_vpc.vpc]
+  vpc_id      = aws_vpc.main.id
+  depends_on  = [aws_vpc.main]
   ingress {
     from_port = "0"
     to_port   = "0"
@@ -111,6 +111,6 @@ resource "aws_security_group" "default" {
     self      = "true"
   }
   tags = {
-    Environment = "${var.environment}"
+    Name = "${var.vpc_name}-default-security-group"
   }
 }
