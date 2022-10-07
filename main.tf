@@ -26,3 +26,14 @@ resource "aws_subnet" "public" {
     Name = "${var.vpc_name}-${element(var.pub_avail_zones, count.index)}-public-subnet"
   }
 }
+
+resource "aws_subnet" "private" {
+  vpc_id                  = aws_vpc.main.id
+  count                   = length(var.priv_cidrs)
+  cidr_block              = element(var.priv_cidrs, count.index)
+  availability_zone       = element(var.priv_avail_zones, count.index)
+  map_public_ip_on_launch = var.priv_map_ip
+  tags = {
+    Name = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-private-subnet"
+  }
+}

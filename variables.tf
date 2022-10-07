@@ -44,3 +44,17 @@ variable "pub_map_ip" {
   default     = false
   description = "Specify true to indicate that instances launched into the subnet should be assigned a public IP address"
 }
+
+variable "priv_cidrs" {
+  type = list(any)
+}
+
+variable "priv_avail_zones" {
+  type = list(any)
+}
+
+variable "priv_map_ip" {
+  type        = bool
+  default     = false
+  description = "Specify true to indicate that instances launched into the subnet should be assigned a public IP address"
+}
