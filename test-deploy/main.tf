@@ -11,7 +11,7 @@ locals {
   # subnet priv
   priv_cidrs       = ["10.0.1.0/24", "10.0.3.0/24"]
   priv_avail_zones = ["us-east-1a", "us-east-1b"]
-  priv_nat_gateway = true
+  priv_nat_gateway = false # true costs
 }
 
 module "vpc" {
