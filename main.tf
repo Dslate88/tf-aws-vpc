@@ -7,3 +7,11 @@ resource "aws_vpc" "main" {
     Name = var.vpc_name
   }
 }
+
+resource "aws_internet_gateway" "ig" {
+  vpc_id = aws_vpc.main.id
+  count  = var.enable_igw ? 1 : 0
+  tags = {
+    Name = "${var.vpc_name}-igw"
+  }
+}

@@ -17,6 +17,11 @@ variable "enable_dns_hostnames" {
   default = false
 }
 
+variable "enable_igw" {
+  type        = string
+  description = "Boolean indicating internet gateway deployment"
+}
+
 variable "vpc_cidr" {
   type = string
 }
