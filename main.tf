@@ -8,7 +8,7 @@ resource "aws_vpc" "main" {
   }
 }
 
-resource "aws_internet_gateway" "ig" {
+resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
   count  = var.enable_igw ? 1 : 0
   tags = {
@@ -35,5 +35,20 @@ resource "aws_subnet" "private" {
   map_public_ip_on_launch = var.priv_map_ip
   tags = {
     Name = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-private-subnet"
+  }
+}
+
+resource "aws_eip" "nat_gw" {
+  count = var.priv_nat_gateway ? length(var.priv_cidrs) : 0
+  vpc   = true
+}
+
+resource "aws_nat_gateway" "main" {
+  count         = var.priv_nat_gateway ? length(var.priv_cidrs) : 0
+  allocation_id = aws_eip.nat_gw[count.index].id
+  subnet_id     = element(aws_subnet.public.*.id, 0)
+  depends_on    = [aws_internet_gateway.gw]
+  tags = {
+    Name = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-nat-gw"
   }
 }

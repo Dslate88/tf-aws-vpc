@@ -58,3 +58,9 @@ variable "priv_map_ip" {
   default     = false
   description = "Specify true to indicate that instances launched into the subnet should be assigned a public IP address"
 }
+
+variable "priv_nat_gateway" {
+  type        = bool
+  default     = false
+  description = "Specify true to deploy a public nat gateway"
+}
