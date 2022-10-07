@@ -15,3 +15,14 @@ resource "aws_internet_gateway" "ig" {
     Name = "${var.vpc_name}-igw"
   }
 }
+
+resource "aws_subnet" "public" {
+  vpc_id                  = aws_vpc.main.id
+  count                   = length(var.pub_cidrs)
+  cidr_block              = element(var.pub_cidrs, count.index)
+  availability_zone       = element(var.pub_avail_zones, count.index)
+  map_public_ip_on_launch = var.pub_map_ip
+  tags = {
+    Name = "${var.vpc_name}-${element(var.pub_avail_zones, count.index)}-public-subnet"
+  }
+}

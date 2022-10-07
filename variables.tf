@@ -8,12 +8,12 @@ variable "vpc_name" {
 }
 
 variable "enable_dns_support" {
-  type    = string
+  type    = bool
   default = true
 }
 
 variable "enable_dns_hostnames" {
-  type    = string
+  type    = bool
   default = false
 }
 
@@ -29,4 +29,18 @@ variable "vpc_cidr" {
 variable "instance_tenancy" {
   type    = string
   default = "default"
+}
+
+variable "pub_cidrs" {
+  type = list(any)
+}
+
+variable "pub_avail_zones" {
+  type = list(any)
+}
+
+variable "pub_map_ip" {
+  type        = bool
+  default     = false
+  description = "Specify true to indicate that instances launched into the subnet should be assigned a public IP address"
 }
