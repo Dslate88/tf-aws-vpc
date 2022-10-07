@@ -43,7 +43,7 @@ resource "aws_eip" "nat_gw" {
   vpc   = true
 }
 
-resource "aws_nat_gateway" "main" {
+resource "aws_nat_gateway" "default" {
   count         = var.priv_nat_gateway ? length(var.priv_cidrs) : 0
   allocation_id = aws_eip.nat_gw[count.index].id
   subnet_id     = element(aws_subnet.public.*.id, 0)
@@ -51,4 +51,32 @@ resource "aws_nat_gateway" "main" {
   tags = {
     Name = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-nat-gw"
   }
+}
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "${var.vpc_name}-private-route-table"
+  }
+}
+
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "${var.vpc_name}-public-route-table"
+  }
+}
+
+resource "aws_route" "public_internet_gateway" {
+  count                  = var.enable_igw ? 1 : 0
+  route_table_id         = aws_route_table.public.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.gw[count.index].id
+}
+
+resource "aws_route" "private_nat_gateway" {
+  count                  = var.priv_nat_gateway ? 1 : 0
+  route_table_id         = aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.default[count.index].id
 }
