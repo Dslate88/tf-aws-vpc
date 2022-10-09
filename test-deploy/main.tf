@@ -4,11 +4,11 @@ locals {
   vpc_cidr             = "10.0.0.0/16"
   enable_dns_hostnames = true
   enable_igw           = true
-  # subnet pub
+  # subnet pub: evens
   pub_cidrs       = ["10.0.0.0/24", "10.0.2.0/24"]
   pub_avail_zones = ["us-east-1a", "us-east-1b"]
   pub_map_ip      = true
-  # subnet priv
+  # subnet priv: odds
   priv_cidrs       = ["10.0.1.0/24", "10.0.3.0/24"]
   priv_avail_zones = ["us-east-1a", "us-east-1b"]
   priv_nat_gateway = false # true costs
