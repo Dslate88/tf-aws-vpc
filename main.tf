@@ -4,7 +4,8 @@ resource "aws_vpc" "main" {
   enable_dns_support   = var.enable_dns_support
   enable_dns_hostnames = var.enable_dns_hostnames
   tags = {
-    Name = var.vpc_name
+    name  = var.vpc_name,
+    stack = var.stack_name
   }
 }
 
@@ -12,7 +13,8 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
   count  = var.enable_igw ? 1 : 0
   tags = {
-    Name = "${var.vpc_name}-igw"
+    name  = "${var.vpc_name}-igw",
+    stack = var.stack_name
   }
 }
 
@@ -23,7 +25,8 @@ resource "aws_subnet" "public" {
   availability_zone       = element(var.pub_avail_zones, count.index)
   map_public_ip_on_launch = var.pub_map_ip
   tags = {
-    Name = "${var.vpc_name}-${element(var.pub_avail_zones, count.index)}-public-subnet"
+    name  = "${var.vpc_name}-${element(var.pub_avail_zones, count.index)}-public-subnet",
+    stack = var.stack_name
   }
 }
 
@@ -34,7 +37,8 @@ resource "aws_subnet" "private" {
   availability_zone       = element(var.priv_avail_zones, count.index)
   map_public_ip_on_launch = var.priv_map_ip
   tags = {
-    Name = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-private-subnet"
+    name  = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-private-subnet",
+    stack = var.stack_name
   }
 }
 
@@ -49,21 +53,24 @@ resource "aws_nat_gateway" "default" {
   subnet_id     = element(aws_subnet.public.*.id, 0)
   depends_on    = [aws_internet_gateway.gw]
   tags = {
-    Name = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-nat-gw"
+    name  = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-nat-gw",
+    stack = var.stack_name
   }
 }
 
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
   tags = {
-    Name = "${var.vpc_name}-private-route-table"
+    name  = "${var.vpc_name}-private-route-table",
+    stack = var.stack_name
   }
 }
 
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
   tags = {
-    Name = "${var.vpc_name}-public-route-table"
+    name  = "${var.vpc_name}-public-route-table",
+    stack = var.stack_name
   }
 }
 
@@ -111,6 +118,7 @@ resource "aws_security_group" "default" {
     self      = "true"
   }
   tags = {
-    Name = "${var.vpc_name}-default-security-group"
+    name  = "${var.vpc_name}-default-security-group",
+    stack = var.stack_name
   }
 }

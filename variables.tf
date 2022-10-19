@@ -1,4 +1,9 @@
 # general
+variable "stack_name" {
+  type    = string
+  default = "test-deploy"
+}
+
 variable "region" {
   type    = string
   default = "us-east_1"
