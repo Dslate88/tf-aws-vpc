@@ -4,7 +4,7 @@ resource "aws_vpc" "main" {
   enable_dns_support   = var.enable_dns_support
   enable_dns_hostnames = var.enable_dns_hostnames
   tags = {
-    name  = var.vpc_name,
+    Name  = var.vpc_name,
     stack = var.stack_name
   }
 }
@@ -13,7 +13,7 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
   count  = var.enable_igw ? 1 : 0
   tags = {
-    name  = "${var.vpc_name}-igw",
+    Name  = "${var.vpc_name}-igw",
     stack = var.stack_name
   }
 }
@@ -25,7 +25,7 @@ resource "aws_subnet" "public" {
   availability_zone       = element(var.pub_avail_zones, count.index)
   map_public_ip_on_launch = var.pub_map_ip
   tags = {
-    name  = "${var.vpc_name}-${element(var.pub_avail_zones, count.index)}-public-subnet",
+    Name  = "${var.vpc_name}-${element(var.pub_avail_zones, count.index)}-public-subnet",
     stack = var.stack_name
   }
 }
@@ -37,7 +37,7 @@ resource "aws_subnet" "private" {
   availability_zone       = element(var.priv_avail_zones, count.index)
   map_public_ip_on_launch = var.priv_map_ip
   tags = {
-    name  = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-private-subnet",
+    Name  = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-private-subnet",
     stack = var.stack_name
   }
 }
@@ -53,7 +53,7 @@ resource "aws_nat_gateway" "default" {
   subnet_id     = element(aws_subnet.public.*.id, 0)
   depends_on    = [aws_internet_gateway.gw]
   tags = {
-    name  = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-nat-gw",
+    Name  = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-nat-gw",
     stack = var.stack_name
   }
 }
@@ -61,7 +61,7 @@ resource "aws_nat_gateway" "default" {
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
   tags = {
-    name  = "${var.vpc_name}-private-route-table",
+    Name  = "${var.vpc_name}-private-route-table",
     stack = var.stack_name
   }
 }
@@ -69,7 +69,7 @@ resource "aws_route_table" "private" {
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
   tags = {
-    name  = "${var.vpc_name}-public-route-table",
+    Name  = "${var.vpc_name}-public-route-table",
     stack = var.stack_name
   }
 }
@@ -118,7 +118,7 @@ resource "aws_security_group" "default" {
     self      = "true"
   }
   tags = {
-    name  = "${var.vpc_name}-default-security-group",
+    Name  = "${var.vpc_name}-default-security-group",
     stack = var.stack_name
   }
 }
