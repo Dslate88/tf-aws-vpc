@@ -10,11 +10,13 @@ variable "region" {
 }
 
 variable "stack_name" {
-  type = string
+  type        = string
+  description = "Name of the stack responsible for deploying the resource"
 }
 
 variable "vpc_name" {
-  type = string
+  type        = string
+  description = "Name of the vpc and used as prefix for dependent resources"
 }
 
 # vpc
