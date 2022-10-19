@@ -1,4 +1,9 @@
 # general
+variable "env" {
+  type        = string
+  description = "[dev/test/prod] identification"
+}
+
 variable "stack_name" {
   type = string
 }

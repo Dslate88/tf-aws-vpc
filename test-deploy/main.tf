@@ -1,5 +1,6 @@
 locals {
-  stack_name = "test-deploy"
+  stack_name = "vpc_module_test"
+  env        = "dev"
 
   # vpc
   vpc_name             = "testing_vpc"
@@ -19,6 +20,7 @@ locals {
 module "vpc" {
   source     = "./.."
   stack_name = local.stack_name
+  env        = local.env
 
   # vpc
   vpc_name             = local.vpc_name

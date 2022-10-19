@@ -5,7 +5,8 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = var.enable_dns_hostnames
   tags = {
     Name  = var.vpc_name,
-    Stack = var.stack_name
+    Stack = var.stack_name,
+    Env   = var.env
   }
 }
 
@@ -14,7 +15,8 @@ resource "aws_internet_gateway" "gw" {
   count  = var.enable_igw ? 1 : 0
   tags = {
     Name  = "${var.vpc_name}-igw",
-    Stack = var.stack_name
+    Stack = var.stack_name,
+    Env   = var.env
   }
 }
 
@@ -26,7 +28,8 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = var.pub_map_ip
   tags = {
     Name  = "${var.vpc_name}-${element(var.pub_avail_zones, count.index)}-public-subnet",
-    Stack = var.stack_name
+    Stack = var.stack_name,
+    Env   = var.env
   }
 }
 
@@ -38,7 +41,8 @@ resource "aws_subnet" "private" {
   map_public_ip_on_launch = var.priv_map_ip
   tags = {
     Name  = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-private-subnet",
-    Stack = var.stack_name
+    Stack = var.stack_name,
+    Env   = var.env
   }
 }
 
@@ -54,7 +58,8 @@ resource "aws_nat_gateway" "default" {
   depends_on    = [aws_internet_gateway.gw]
   tags = {
     Name  = "${var.vpc_name}-${element(var.priv_avail_zones, count.index)}-nat-gw",
-    Stack = var.stack_name
+    Stack = var.stack_name,
+    Env   = var.env
   }
 }
 
@@ -62,7 +67,8 @@ resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
   tags = {
     Name  = "${var.vpc_name}-private-route-table",
-    Stack = var.stack_name
+    Stack = var.stack_name,
+    Env   = var.env
   }
 }
 
@@ -70,7 +76,8 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
   tags = {
     Name  = "${var.vpc_name}-public-route-table",
-    Stack = var.stack_name
+    Stack = var.stack_name,
+    Env   = var.env
   }
 }
 
@@ -119,6 +126,7 @@ resource "aws_security_group" "default" {
   }
   tags = {
     Name  = "${var.vpc_name}-default-security-group",
-    Stack = var.stack_name
+    Stack = var.stack_name,
+    Env   = var.env
   }
 }
