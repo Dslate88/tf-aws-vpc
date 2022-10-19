@@ -4,13 +4,13 @@ variable "env" {
   description = "[dev/test/prod] identification"
 }
 
-variable "stack_name" {
-  type = string
-}
-
 variable "region" {
   type    = string
   default = "us-east_1"
+}
+
+variable "stack_name" {
+  type = string
 }
 
 variable "vpc_name" {
