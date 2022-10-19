@@ -1,7 +1,6 @@
 # general
 variable "stack_name" {
-  type    = string
-  default = "test-deploy"
+  type = string
 }
 
 variable "region" {

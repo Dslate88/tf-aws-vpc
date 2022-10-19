@@ -1,4 +1,6 @@
 locals {
+  stack_name = "test-deploy"
+
   # vpc
   vpc_name             = "testing_vpc"
   vpc_cidr             = "10.0.0.0/16"
@@ -15,7 +17,9 @@ locals {
 }
 
 module "vpc" {
-  source = "./.."
+  source     = "./.."
+  stack_name = local.stack_name
+
   # vpc
   vpc_name             = local.vpc_name
   vpc_cidr             = local.vpc_cidr
