@@ -112,22 +112,26 @@ resource "aws_security_group" "default" {
   description = "Default sg self-ref ingress & all engress"
   vpc_id      = aws_vpc.main.id
   depends_on  = [aws_vpc.main]
+
   ingress {
-    from_port = "0"
-    to_port   = "0"
-    protocol  = "-1"
-    self      = true
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
+
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
-    from_port = "0"
-    to_port   = "0"
-    protocol  = "-1"
-    self      = "true"
-  }
-  tags = {
-    Name  = "${var.vpc_name}-default-security-group",
-    Stack = var.stack_name,
-    Env   = var.env
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
