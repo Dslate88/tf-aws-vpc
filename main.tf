@@ -175,3 +175,12 @@ resource "aws_vpc_endpoint" "ec2" {
   security_group_ids = [aws_security_group.default.id]
   subnet_ids         = aws_subnet.private.*.id
 }
+
+resource "aws_ssm_endpoint" "ssm" {
+  count = var.enable_ssm_endpoint ? 1 : 0
+
+  vpc_id             = aws_vpc.main.id
+  vpc_endpoint_type  = "Interface"
+  security_group_ids = [aws_security_group.default.id]
+  subnet_ids         = aws_subnet.private.*.id
+}

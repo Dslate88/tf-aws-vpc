@@ -16,9 +16,10 @@ locals {
   priv_avail_zones = ["us-east-1a", "us-east-1b"]
   priv_nat_gateway = false # true costs
   # vpc endpoints
-  enable_s3_endpoint      = true
-  enable_ecr_dkr_endpoint = true
-  enable_ecr_api_endpoint = true
+  enable_s3_endpoint      = false
+  enable_ecr_dkr_endpoint = false
+  enable_ecr_api_endpoint = false
+  enable_ssm_endpoint     = false
 }
 
 module "vpc" {
@@ -43,4 +44,5 @@ module "vpc" {
   enable_s3_endpoint      = local.enable_s3_endpoint
   enable_ecr_dkr_endpoint = local.enable_ecr_dkr_endpoint
   enable_ecr_api_endpoint = local.enable_ecr_api_endpoint
+  enable_ssm_endpoint     = local.enable_ssm_endpoint
 }
