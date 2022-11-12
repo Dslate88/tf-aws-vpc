@@ -79,3 +79,40 @@ variable "priv_nat_gateway" {
   default     = false
   description = "Specify true to deploy a public nat gateway"
 }
+
+# vpc endpoints
+variable "enable_s3_endpoint" {
+  type        = bool
+  default     = false
+  description = "Boolean indicating s3 endpoint deployment"
+}
+
+variable "enable_ec2_endpoint" {
+  type        = bool
+  default     = false
+  description = "Boolean indicating ec2 endpoint deployment"
+}
+
+variable "enable_ecr_dkr_endpoint" {
+  type        = bool
+  default     = false
+  description = "Boolean indicating ecr dkr endpoint deployment"
+}
+
+variable "enable_ecr_api_endpoint" {
+  type        = bool
+  default     = false
+  description = "Boolean indicating ecr api endpoint deployment"
+}
+
+variable "enable_dynamodb_endpoint" {
+  type        = bool
+  default     = false
+  description = "Boolean indicating dynamodb endpoint deployment"
+}
+
+variable "enable_ssm_endpoint" {
+  type        = bool
+  default     = false
+  description = "Boolean indicating ssm endpoint deployment"
+}

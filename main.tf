@@ -130,3 +130,48 @@ resource "aws_security_group" "default" {
     Env   = var.env
   }
 }
+
+# vpc endpoints
+resource "aws_vpc_endpoint" "s3" {
+  count = var.enable_s3_endpoint ? 1 : 0
+
+  vpc_id       = aws_vpc.main.id
+  service_name = "com.amazonaws.${var.region}.s3"
+}
+
+resource "aws_vpc_endpoint" "dynamodb" {
+  count = var.enable_dynamodb_endpoint ? 1 : 0
+
+  vpc_id       = aws_vpc.main.id
+  service_name = "com.amazonaws.${var.region}.dynamodb"
+}
+
+resource "aws_vpc_endpoint" "ecr_dkr" {
+  count = var.enable_ecr_dkr_endpoint ? 1 : 0
+
+  vpc_id             = aws_vpc.main.id
+  service_name       = "com.amazonaws.${var.region}.ecr.dkr"
+  vpc_endpoint_type  = "Interface"
+  security_group_ids = [aws_security_group.default.id]
+  subnet_ids         = aws_subnet.private.*.id
+}
+
+resource "aws_vpc_endpoint" "ecr_api" {
+  count = var.enable_ecr_api_endpoint ? 1 : 0
+
+  vpc_id             = aws_vpc.main.id
+  service_name       = "com.amazonaws.${var.region}.ecr.api"
+  vpc_endpoint_type  = "Interface"
+  security_group_ids = [aws_security_group.default.id]
+  subnet_ids         = aws_subnet.private.*.id
+}
+
+resource "aws_vpc_endpoint" "ec2" {
+  count = var.enable_ec2_endpoint ? 1 : 0
+
+  vpc_id             = aws_vpc.main.id
+  service_name       = "com.amazonaws.${var.region}.ec2"
+  vpc_endpoint_type  = "Interface"
+  security_group_ids = [aws_security_group.default.id]
+  subnet_ids         = aws_subnet.private.*.id
+}
