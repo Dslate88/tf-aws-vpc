@@ -19,7 +19,7 @@ locals {
   enable_s3_endpoint      = false
   enable_ecr_dkr_endpoint = false
   enable_ecr_api_endpoint = false
-  enable_ssm_endpoint     = false
+  enable_ssm_endpoint     = true
 }
 
 module "vpc" {
