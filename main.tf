@@ -109,7 +109,7 @@ resource "aws_route_table_association" "private" {
 
 resource "aws_security_group" "default" {
   name        = "${var.vpc_name}-default-sg"
-  description = "Default sg self-ref ingress & all engress"
+  description = "Default sg ingress & all egress"
   vpc_id      = aws_vpc.main.id
   depends_on  = [aws_vpc.main]
 
@@ -118,6 +118,7 @@ resource "aws_security_group" "default" {
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    self        = false
   }
 
   ingress {
@@ -125,6 +126,7 @@ resource "aws_security_group" "default" {
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+    self        = false
   }
 
   egress {
@@ -132,6 +134,7 @@ resource "aws_security_group" "default" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+    self        = false
   }
 }
 
