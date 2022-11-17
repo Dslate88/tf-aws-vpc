@@ -47,12 +47,12 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_eip" "nat_gw" {
-  count = var.priv_nat_gateway ? length(var.priv_cidrs) : 0
+  count = var.priv_nat_gateway ? 1 : 0
   vpc   = true
 }
 
 resource "aws_nat_gateway" "default" {
-  count         = var.priv_nat_gateway ? length(var.priv_cidrs) : 0
+  count         = var.priv_nat_gateway ? 1 : 0
   allocation_id = aws_eip.nat_gw[count.index].id
   subnet_id     = element(aws_subnet.public.*.id, 0)
   depends_on    = [aws_internet_gateway.gw]
